@@ -1509,6 +1509,16 @@ get_resolution() {
     resolution="${resolution%,*}"
 }
 
+get_diagonal() {
+    case "$os" in
+        *)
+            mm=($(xrandr | awk '/mm/' | grep -oP '[0-9]+(?=mm)'))
+            diagonal="$(echo "scale=1; sqrt(${mm[0]}^2 + ${mm[1]}^2) / 25.4" | bc)\""
+            unset mm
+        ;;
+    esac
+}
+
 get_style() {
     # Fix weird output when the function is run multiple times.
     unset gtk2_theme gtk3_theme theme path
@@ -3865,13 +3875,13 @@ convert_time() {
     week_day="$(((year_code + month_code + 6 + day - leap_code) % 7))"
 
     case "$week_day" in
-        0) week_day="Sun" ;;
-        1) week_day="Mon" ;;
-        2) week_day="Tue" ;;
-        3) week_day="Wed" ;;
-        4) week_day="Thu" ;;
-        5) week_day="Fri" ;;
-        6) week_day="Sat" ;;
+        0) week_day="Sunday" ;;
+        1) week_day="Monday" ;;
+        2) week_day="Tuesday" ;;
+        3) week_day="Wednesday" ;;
+        4) week_day="Thursday" ;;
+        5) week_day="Friday" ;;
+        6) week_day="Saturday" ;;
     esac
 
     # Convert 24 hour time to 12 hour time + AM/PM.
@@ -3889,7 +3899,7 @@ convert_time() {
     [[ "$install_time" == "off" ]] && unset time
 
     # Print the install date.
-    printf "%s" "$week_day $day $month $year $time"
+    printf "%s" "$week_day $year-$2-$day $time"
 }
 
 get_ppid() {
