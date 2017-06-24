@@ -1512,10 +1512,6 @@ get_resolution() {
 get_diagonal() {
     case "$os" in
         Linux)
-<<<<<<< HEAD
-            mm=($(xrandr | awk '/mm/' | grep -oP '[0-9]+(?=mm)'))
-            diagonal="$(echo "scale=1; sqrt(${mm[0]}^2 + ${mm[1]}^2) / 25.4" | bc)\""
-=======
             # Using --nograb and --current make xrandr print REALLY fast.
             # Replaced the grep and awk with a single grep command. The less pipes the better.
             mm=($(xrandr | grep -oP '[0-9]+(?=mm)'))
@@ -1523,7 +1519,6 @@ get_diagonal() {
             # Using <<< you can remove the call to echo.
             diagonal="$(bc <<< "scale=1; sqrt(${mm[0]}^2 + ${mm[1]}^2) / 25.4")\""
 
->>>>>>> master
             unset mm
         ;;
     esac
